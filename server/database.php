@@ -25,6 +25,16 @@ class Database
 		return $data;
 		unset($data);
 	}
+	public function login($data)
+	{
+		$query = $this->conn->prepare("SELECT * FROM admin WHERE username=? AND password=?");
+		$query->execute(array($data['username'], $data['password']));
+		$data = $query->fetch(PDO::FETCH_ASSOC);
+		return $data;
+		$query->closeCursor();
+		unset($data);
+	}
+
 
 	public function tampil_semua_kategori()
 	{

@@ -132,6 +132,6 @@ class Client
 	}
 }
 
-$url = 'http://10.90.33.234/UAS_Sister/server/server.php';
+$url = 'http://localhost/UAS_Sister/server/server.php';
 // buat objek baru dari class Client
 $abc = new Client($url);

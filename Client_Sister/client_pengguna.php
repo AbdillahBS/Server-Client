@@ -23,19 +23,23 @@ class Client
 	*/
 
     // diload pertama kali
+    public function getPDOConnection()
+    {
+        try {
+            if ($this->driver == 'mysql') {
+                $pdoConnection = new PDO("mysql:host=$this->host;port=$this->port;dbname=$this->dbname;charset=utf8", $this->user, $this->password);
+            } elseif ($this->driver == 'pgsql') {
+                $pdoConnection = new PDO("pgsql:host=$this->host;port=$this->port;dbname=$this->dbname;user=$this->user;password=$this->password");
+            }
+            return $pdoConnection;
+        } catch (PDOException $e) {
+            echo "Koneksi gagal";
+            return null;
+        }
+    }
     public function __construct($url)
     {
         $this->url = $url;
-        try {
-            if ($this->driver == 'mysql') {
-                $this->conn = new PDO("mysql:host=$this->host;port=$this->port;dbname=$this->dbname;charset=utf8", $this->user, $this->password);
-            } elseif ($this->driver == 'pgsql') {
-                $this->conn = new PDO("pgsql:host=$this->host;port=$this->port;dbname=$this->dbname;user=$this->user;password=$this->password");
-            }
-        } catch (PDOException $e) {
-            echo "Koneksi gagal";
-        }
-
         // menghapus variable dari memory
         unset($url);
     }
@@ -46,6 +50,24 @@ class Client
         $data = preg_replace('/[^a-zA-Z0-9]/', '', $data);
         return $data;
         unset($data);
+    }
+
+    public function login($data)
+    {
+        $data = '{	"username":"' . $data['username'] . '",
+					"password":"' . $data['password'] . '",
+					"aksi":"' . $data['aksi'] . '"
+				}';
+        $c = curl_init();
+        curl_setopt($c, CURLOPT_URL, $this->url);
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($c, CURLOPT_POST, true);
+        curl_setopt($c, CURLOPT_POSTFIELDS, $data);
+        $response = curl_exec($c);
+        curl_close($c);
+        $data2 = json_decode($response);
+        return $data2;
+        unset($data, $data2, $c, $response);
     }
 
     public function tampil_semua_pengguna()
@@ -123,6 +145,6 @@ class Client
     }
 }
 
-$url = 'http://10.90.33.234/UAS_Sister/server/server_pengguna.php';
+$url = 'http://localhost/UAS_Sister/server/server_pengguna.php';
 // buat objek baru dari class Client
 $abc = new Client($url);

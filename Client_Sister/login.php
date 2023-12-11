@@ -5,40 +5,6 @@ if (isset($_SESSION['admin'])) {
     header("Location: admin.php"); // Mengarahkan ke halaman login jika belum login
     exit();
 }
-
-
-
-include 'koneksi.php';
-// Memeriksa apakah pengguna sudah submit form login
-if (isset($_POST['submit'])) {
-    $username = $_POST['usernamee'];
-    $password = $_POST['pasword'];
-
-    // Mencocokkan kredensial pengguna dengan yang ada di database
-    $query = "SELECT * FROM admin WHERE username='$username' AND password='$password'";
-    $result = mysqli_query($conn, $query);
-    $row = mysqli_fetch_assoc($result);
-
-
-    if (mysqli_num_rows($result) == 1) {
-        // Login berhasil
-        $user_level = $row['level'];
-        $nama_pengguna = $row["nama"];
-        $_SESSION['username'] = $username;
-        $_SESSION['user_level'] = $user_level;
-        $_SESSION["pengguna"] = $nama_pengguna;
-
-        // Mengarahkan pengguna sesuai levelnya
-        if ($user_level == 'admin') {
-            $_SESSION['admin'] = true;
-            header("Location: admin.php");
-        }
-        exit();
-    } else {
-        // Login gagal
-        $error = "Username atau password salah!";
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -67,15 +33,15 @@ if (isset($_POST['submit'])) {
                                     <h3 class="text-center font-weight-light my-4">Login</h3>
                                 </div>
                                 <div class="card-body">
-                                    <form method="post" action="">
+                                    <!-- Form Login -->
+                                    <form method="post" action="proses_login.php">
+                                        <input type="hidden" name="aksi" value="login" />
                                         <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputusername" type="text"
-                                                placeholder="username" name="usernamee" />
+                                            <input class="form-control" id="inputusername" type="text" placeholder="username" name="username" />
                                             <label for="inputusername">username</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputPassword" type="password"
-                                                placeholder="Password" name="pasword" />
+                                            <input class="form-control" id="inputPassword" type="password" placeholder="Password" name="password" />
                                             <label for="inputPassword">Password</label>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
@@ -90,11 +56,10 @@ if (isset($_POST['submit'])) {
             </main>
         </div>
         <div id="layoutAuthentication_footer">
-            
+
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
 </body>
 
