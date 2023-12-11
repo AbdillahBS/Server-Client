@@ -102,8 +102,8 @@ class Database
 	}
 	public function tambah_artikel($data)
 	{
-		$query = $this->conn->prepare("INSERT INTO artikel (id_artikel, id, tanggal, judul, id_kategori, isi) VALUES (?, ?, ?, ?, ?, ?)");
-		$query->execute(array($data['id_artikel'], $data['id'], $data['tanggal'], $data['judul'], $data['id_kategori'], $data['isi']));
+		$query = $this->conn->prepare("INSERT INTO artikel (id, tanggal, judul, id_kategori, isi) VALUES ( ?, ?, ?, ?, ?)");
+		$query->execute(array($data['id'], $data['tanggal'], $data['judul'], $data['id_kategori'], $data['isi']));
 		$query->closeCursor();
 		unset($data);
 	}
@@ -119,6 +119,13 @@ class Database
 	{
 		$query = $this->conn->prepare("UPDATE admin SET nama=?, username=?, password=?, level=? WHERE id=?");
 		$query->execute(array($data['nama'], $data['username'], $data['password'], $data['level'], $data['id']));
+		$query->closeCursor();
+		unset($data);
+	}
+	public function ubah_artikel($data)
+	{
+		$query = $this->conn->prepare("UPDATE artikel SET id=?, tanggal=?, judul=?, id_kategori=?, isi=? WHERE id_artikel=?");
+		$query->execute(array($data['id'], $data['tanggal'], $data['judul'], $data['id_kategori'], $data['isi'], $data['id_artikel']));
 		$query->closeCursor();
 		unset($data);
 	}

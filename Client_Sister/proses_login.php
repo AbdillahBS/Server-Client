@@ -23,7 +23,6 @@ if (isset($_POST['aksi']) && $_POST['aksi'] == 'login') {
     $data = array(
         "username" => $username,
         "password" => $password,
-        "nama" => $nama,
         "aksi" => "login"
     );
 
@@ -32,7 +31,8 @@ if (isset($_POST['aksi']) && $_POST['aksi'] == 'login') {
     // Periksa apakah login berhasil
     if ($data2) {
         // Login berhasil
-        $_SESSION['pengguna'] = $nama;
+        $_SESSION['id'] = $data2->id;
+        $_SESSION['pengguna'] = $data2->nama;
         $_SESSION['admin'] = true;
         echo "<script>alert('Berhasil login')</script>";
         echo "<script>document.location.href='admin.php'</script>";

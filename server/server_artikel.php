@@ -30,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($aksi == 'tambah') {
         $data2 = array(
-            'id_artikel' => $id_artikel,
             'id' => $id,
             'tanggal' => $tanggal,
             'judul' => $judul,
@@ -47,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'id_kategori' => $id_kategori,
             'isi' => $isi
         );
-        $abc->ubah_pengguna($data2);
+        $abc->ubah_artikel($data2);
     } elseif ($aksi == 'hapus') {
         $abc->hapus_pengguna($id_artikel);
     }

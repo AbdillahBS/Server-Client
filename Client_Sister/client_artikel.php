@@ -62,13 +62,14 @@ class Client
     }
 
 
-    public function tambah_pengguna($data)
+    public function tambah_artikel($data)
     {
-        $data = '{	"id":"' . $data['id'] . '",
-					"nama":"' . $data['nama'] . '",
-					"username":"' . $data['username'] . '",
-					"password":"' . $data['password'] . '",
-					"level":"' . $data['level'] . '",
+        $data = '{
+					"id":"' . $data['id'] . '",
+					"tanggal":"' . $data['tanggal'] . '",
+					"judul":"' . $data['judul'] . '",
+					"id_kategori":"' . $data['id_kategori'] . '",
+					"isi":"' . $data['isi'] . '",
 					"aksi":"' . $data['aksi'] . '"
 				}';
         $c = curl_init();
@@ -77,17 +78,19 @@ class Client
         curl_setopt($c, CURLOPT_POST, true);
         curl_setopt($c, CURLOPT_POSTFIELDS, $data);
         $response = curl_exec($c);
+        // Tambahkan perintah log untuk melihat respons dari server
         curl_close($c);
         unset($data, $c, $response);
     }
 
-    public function ubah_pengguna($data)
+    public function ubah_artikel($data)
     {
-        $data = '{  "id":"' . $data['id'] . '",
-                    "nama":"' . $data['nama'] . '",
-                    "username":"' . $data['username'] . '",
-                    "password":"' . $data['password'] . '",
-                    "level":"' . $data['level'] . '",
+        $data = '{  "id_artikel":"' . $data['id_artikel'] . '",
+                    "id":"' . $data['id'] . '",
+                    "tanggal":"' . $data['tanggal'] . '",
+                    "judul":"' . $data['judul'] . '",
+                    "id_kategori":"' . $data['id_kategori'] . '",
+                    "isi":"' . $data['isi'] . '",
                     "aksi":"ubah"
 				}';
         $c = curl_init();
@@ -103,8 +106,8 @@ class Client
 
     public function hapus_pengguna($data)
     {
-        $id = $this->filter($data['id']);
-        $data = '{	"id":"' . $id . '",
+        $id = $this->filter($data['id_artikel']);
+        $data = '{	"id_artikel":"' . $id . '",
 					"aksi":"' . $data['aksi'] . '"
 				}';
         $c = curl_init();

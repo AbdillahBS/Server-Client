@@ -127,11 +127,8 @@ include 'client_artikel.php';
                                         <div class="modal-body">
 
                                             <!-- Form penambahan artikel -->
-                                            <form method="post" action="fungsi_artikel.php" enctype="multipart/form-data">
-                                                <div class="mb-3 mt-3">
-                                                    <label for="penulis" class="form-label">Penulis:</label>
-                                                    <input type="text" class="form-control" value="<?= $_SESSION["pengguna"]; ?>" id="penulis" name="penulis" readonly>
-                                                </div>
+                                            <form method="post" action="proses_artikel.php" enctype="multipart/form-data">
+                                                <input type="hidden" name="id" value="<?= $_SESSION['id']; ?>">
                                                 <div class="mb-3 mt-3">
                                                     <label for="pwd" class="form-label">Tanggal :</label>
                                                     <?php
@@ -146,26 +143,26 @@ include 'client_artikel.php';
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="kategori" class="form-label">Kategori:</label>
-                                                    <select class="form-select" id="kategori" name="kategori">
+                                                    <select class="form-select" id="kategori" name="id_kategori">
                                                         <?php
                                                         // Kode PHP untuk mengambil data kategori dari database    
                                                         $query = "SELECT * FROM kategori";
                                                         $result = mysqli_query($conn, $query);
 
                                                         while ($row = mysqli_fetch_assoc($result)) {
-                                                            echo '<option value="' . $row['id_kategori'] . '">' . $row['nama'] . '</option>';
+                                                        ?>
+                                                            <option value="<?= $row['id_kategori']; ?>"><?= $row['nama']; ?></option>
+                                                            <!-- echo '<option value="' . $row['id_kategori'] . '">' . $row['nama'] . '</option>'; -->
+                                                        <?php
                                                         }
                                                         ?>
                                                     </select>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="isiartikel" class="form-label">Isi Artikel:</label>
-                                                    <textarea class="form-control" id="isiartikel" name="isiartikel" required></textarea>
+                                                    <textarea class="form-control" id="isiartikel" name="isi" required></textarea>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="gambar" class="form-label">Gambar:</label>
-                                                    <input class="form-control" type="file" id="gambar" name="gambar" required>
-                                                </div>
+                                                <input type="hidden" name="aksi" value="tambah">
                                                 <button type="submit" name="tombolSimpanArtikel" class="btn btn-primary">Submit</button>
                                             </form>
 
@@ -244,41 +241,38 @@ include 'client_artikel.php';
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form method="post" action="fungsi_artikel.php" enctype="multipart/form-data">
+                                            <form method="post" action="proses_artikel.php" enctype="multipart/form-data">
                                                 <input type="hidden" id="id_artikel" name="id_artikel">
-                                                <div class="mb-3 mt-3">
-                                                    <label for="edtpenulis" class="form-label">Penulis:</label>
-                                                    <input type="text" class="form-control" id="edtpenulis" name="edtpenulis">
-                                                </div>
+                                                <input type="hidden" name="aksi" value="ubah">
+                                                <input type="hidden" name="id" value="<?= $_SESSION['id']; ?>">
                                                 <div class="mb-3 mt-3">
                                                     <label for="edttanggal" class="form-label">Tanggal:</label>
-                                                    <input type="date" class="form-control" id="edttanggal" name="edttanggal">
+                                                    <input type="date" class="form-control" id="edttanggal" name="tanggal">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="edtjudul" class="form-label">Judul:</label>
-                                                    <input type="text" class="form-control" id="edtjudul" placeholder="Judul Artikel" name="edtjudul">
+                                                    <input type="text" class="form-control" id="edtjudul" placeholder="Judul Artikel" name="judul">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="edtkategori" class="form-label">Kategori:</label>
-                                                    <select class="form-select" id="edtkategori" name="edtkategori">
+                                                    <select class="form-select" id="edtkategori" name="id_kategori">
                                                         <?php
-                                                        // Kode PHP untuk mengambil data kategori dari database
+                                                        // Kode PHP untuk mengambil data kategori dari database    
                                                         $query = "SELECT * FROM kategori";
                                                         $result = mysqli_query($conn, $query);
 
                                                         while ($row = mysqli_fetch_assoc($result)) {
-                                                            echo '<option value="' . $row['id_kategori'] . '">' . $row['nama'] . '</option>';
+                                                        ?>
+                                                            <option value="<?= $row['id_kategori']; ?>"><?= $row['nama']; ?></option>
+                                                            <!-- echo '<option value="' . $row['id_kategori'] . '">' . $row['nama'] . '</option>'; -->
+                                                        <?php
                                                         }
                                                         ?>
                                                     </select>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="editisiartikel" class="form-label">Isi Artikel:</label>
-                                                    <textarea class="form-control" id="editisiartikel" name="editisiartikel"></textarea>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editgambar" class="form-label">Gambar:</label>
-                                                    <input class="form-control" type="file" id="editgambar" name="editgambar">
+                                                    <textarea class="form-control" id="editisiartikel" name="isi"></textarea>
                                                 </div>
                                                 <button type="submit" name="tombolUpdateArtikel" class="btn btn-primary">Submit</button>
                                             </form>

@@ -10,35 +10,6 @@ if (isset($_POST['tombolSimpanArtikel'])) {
     $kategori = $_POST['kategori'];
     $isi = $_POST['isiartikel'];
 
-    // Upload gambar
-    $gambar = $_FILES['gambar']['name'];
-    $gambar_tmp = $_FILES['gambar']['tmp_name'];
-    $folder = "asset/";
-
-    // Generate nama unik untuk gambar
-    $nama_file = uniqid() . '_' . $gambar;
-    $tujuan_file = $folder . $nama_file;
-
-    // Validasi tipe file gambar
-    $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
-    $file_type = $_FILES['gambar']['type'];
-
-    if (!in_array($file_type, $allowed_types)) {
-        echo "<script>alert('Tipe file gambar tidak valid. Hanya gambar dengan format JPEG, PNG, atau GIF yang diperbolehkan.');</script>";
-
-        exit();
-    }
-
-    // Validasi ukuran gambar
-    $max_size = 2 * 1024 * 1024; // 2 MB
-    $file_size = $_FILES['gambar']['size'];
-
-    if ($file_size > $max_size) {
-        echo "<script>alert('Ukuran file gambar terlalu besar. Maksimum ukuran file adalah 2MB.');</script>";
-        exit();
-    }
-
-    move_uploaded_file($gambar_tmp, $tujuan_file);
 
     // Simpan data ke tabel artikel
     // Ambil ID penulis berdasarkan nama

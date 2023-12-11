@@ -56,6 +56,7 @@ class Client
     {
         $data = '{	"username":"' . $data['username'] . '",
 					"password":"' . $data['password'] . '",
+					"nama":"' . $data['nama'] . '",
 					"aksi":"' . $data['aksi'] . '"
 				}';
         $c = curl_init();
